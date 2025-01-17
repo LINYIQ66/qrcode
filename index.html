@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Generator</h1>
+        <p>Enter a URL to generate a QR code:</p>
+        <input type="url" id="urlInput" placeholder="Enter URL here" required>
+        <button onclick="generateQRCode()">Generate QR Code</button>
+        <canvas id="qrCanvas"></canvas>
+        <a id="downloadLink" style="display: none; margin-top: 20px;">Download QR Code</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+    <script>
+        function generateQRCode() {
+            const url = document.getElementById('urlInput').value;
+            if (!url) {
+                alert('Please enter a valid URL.');
+                return;
+            }
+
+            const qr = new QRious({
+                element: document.getElementById('qrCanvas'),
+                value: url,
+                size: 250
+            });
+
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.style.display = 'inline-block';
+            downloadLink.href = qr.toDataURL();
+            downloadLink.download = 'qrcode.png';
+            downloadLink.textContent = 'Download QR Code';
+        }
+    </script>
+</body>
+</html>
